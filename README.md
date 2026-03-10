@@ -1,6 +1,7 @@
 Face Based Attendance System (Django)
-A smart attendance system built using Django and Face Recognition technology.
-This project automatically records attendance by detecting and recognizing faces through a webcam, reducing manual work and improving accuracy.
+
+This is my Face-Based Student Attendance System 2.0, built using Django and Face Recognition technology.
+The system automatically records attendance by detecting and recognizing faces through a webcam, reducing manual work and making attendance management easy and accurate.
 
 Features
 
@@ -18,15 +19,15 @@ Easy-to-use Web Interface
 
 Installation
 
-Clone the repository
+Clone the repository:
 
-git clone <repository-link>
+git clone <your-repo-link>
 
-Install requirements
+Install requirements:
 
 pip install -r requirements.txt
 
-Run server
+Run server:
 
 python manage.py runserver
 Author
