@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <!-- Include Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+
+<body>
+    <div class="sidebar">
+        <h2>AI Dashboard</h2>
+        {% if user.is_authenticated %}
+            <!-- Links visible when the user is logged in -->
+            <a href="{% url 'register_student' %}"><i class="fas fa-user-plus"></i> Register Student</a>
+            <a href="{% url 'student_dashboard' %}"><i class="fas fa-tachometer-alt"></i> Student Dashboard</a>
+            <a href="{% url 'send_attendance_notifications' %}"><i class="fas fa-bell"></i> Sent Notifications</a>
+            <a href="{% url 'student-list' %}"><i class="fas fa-users"></i> View / Authorize Students</a>
+            <a href="{% url 'mark_attendance' %}"><i class="fas fa-check-circle"></i> Mark Attendance</a>
+            <a href="{% url 'student_attendance_list' %}"><i class="fas fa-calendar-check"></i> Attendance Details</a>
+            <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        {% else %}
+            <!-- Link visible when the user is logged out -->
+            <a href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Login</a>
+        {% endif %}
+    </div>
+       
+<!-- ################################################ -->
+    <div class="login-container">
+        <i class="fas fa-arrow-left back-icon" onclick="window.history.back();" aria-hidden="true"></i> <!-- Back icon -->
+        <h2>Admin Login</h2>
+        <p style="text-align: center; color: #333;">Please enter your admin username and password.</p> <!-- Instruction message -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="Enter admin username" required>
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter admin password" required>
+            
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    <!-- ############################################################# -->
+    <footer>
+        <p>Developed by |Vishal Kumar </p>
+    </footer>
+</body>
+
+</html>

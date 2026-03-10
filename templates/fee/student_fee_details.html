@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fee Details for {{ student.name }}</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1, h2, h3 {
+            color: #333;
+            text-align: center;
+        }
+
+        /* Container Box */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Fee Information */
+        .fee-summary {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+        }
+
+        .fee-summary h2 {
+            color: #007bff;
+        }
+
+        /* Table Styling */
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Action Buttons */
+        td a {
+            text-decoration: none;
+            color: #fff;
+            background-color: #28a745;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-right: 10px;
+            transition: background-color 0.3s;
+        }
+
+        td a:hover {
+            background-color: #218838;
+        }
+
+        /* Payment Section */
+        .payment-section p {
+            margin: 5px 0;
+        }
+
+        /* No Payment Message */
+        .no-payment {
+            color: #ff0000;
+            font-style: italic;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .fee-summary {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            th, td {
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fee Details for {{ student.name }}</h1>
+        <div class="fee-summary">
+            <h2>Total Paid: {{ total_paid }}</h2>
+            <h2>Total Balance: {{ total_balance }}</h2>
+        </div>
+
+        <h3>Fees:</h3>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fee Amount</th>
+                        <th>Month</th>
+                        <th>Due Date</th>
+                        <th>Balance</th>
+                        <th>Payments</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fee in student.fees.all %}
+                        <tr>
+                            <td>{{ fee.total_fee }}</td>
+                            <td>{{ fee.added_month }}</td>
+                            <td>{{ fee.due_date }}</td>
+                            <td>{{ fee.balance }}</td>
+                            <td>
+                                <div class="payment-section">
+                                    {% for payment in fee.payments.all %}
+                                        <p>{{ payment.amount }} - {{ payment.date }}</p>
+                                        {% if payment.id %}
+                                            <a href="{% url 'delete_fee_payment' payment.id %}">Delete Payment</a>
+                                        {% else %}
+                                            <p class="no-payment">No Payment ID Available</p>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </td>
+                            <td>
+                                <a href="{% url 'pay_fee_for_student' fee.id %}">Pay</a>
+                                <!-- Add any other actions here -->
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

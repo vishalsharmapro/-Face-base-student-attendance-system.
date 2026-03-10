@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Attendance System</title>
+    <!-- Include Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <h2>AI Dashboard</h2>
+        {% if user.is_authenticated %}
+            <a href="{% url 'register_student' %}"><i class="fas fa-user-plus"></i> Register Student</a>
+            <a href="{% url 'send_attendance_notifications' %}"><i class="fas fa-bell"></i> Sent Notifications</a>
+            <a href="{% url 'student-list' %}"><i class="fas fa-users"></i> Manage Students</a>
+            <a href="{% url 'student_list_with_fees' %}"><i class="fas fa-money-bill-wave"></i> Manage Fees</a>  <!-- New link for Student Fees -->
+            <a href="{% url 'camera_config_list' %}"><i class="fas fa-camera"></i> Manage Camera</a>
+            <a href="{% url 'mark_attendance' %}"><i class="fas fa-check-circle"></i> Mark Attendance</a>
+            <a href="{% url 'capture_and_recognize_with_cam' %}"><i class="fas fa-video"></i>IP Camera</a>
+            <a href="{% url 'student_attendance_list' %}"><i class="fas fa-calendar-check"></i> Attendance Details</a>
+            <a href="{% url 'late_checkin_policy_list' %}"><i class="fas fa-clock"></i> Late Check-In Policy</a>  <!-- New link for Late Check-In Policy -->
+            <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Login</a>
+        {% endif %}
+    </div>
+    
+
+    <!-- Modern Toggle Button -->
+    <button class="toggle-btn" id="toggle-btn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+  <!-- Main Content -->
+<div class="main-content" id="main-content">
+    <div class="hero-section">
+        <h1>Face Based Student Attendance System</h1>
+        <p>Welcome, {{ user.username }}!</p>
+        
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">
+                        <strong>{{ message.level_tag|capfirst }}:</strong> {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        <div class="buttons">
+            <div class="card">
+                <i class="fas fa-users"></i>
+                <p>Total Students: {{ total_students }}</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-calendar-check"></i>
+                <p>Total Attendance Records: {{ total_attendance }}</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-check" style="color: green;"></i>
+                <p>Total Present: {{ total_present }}</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-times" style="color: red;"></i>
+                <p>Total Absent: {{ total_absent }}</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-clock" style="color: red;"></i>
+                <p>Total Late Check-ins: {{ total_late_checkins }}</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-sign-in-alt"></i>
+                <p>Total Check-ins: {{ total_checkins }}</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-sign-out-alt"></i>
+                <p>Total Check-outs: {{ total_checkouts }}</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-video"></i>
+                <p>Total Cameras: {{ total_cameras }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- Footer -->
+    <footer>
+        <p>Developed by | Vishal Kumar</a></p>
+        <P>Version 2.0</P>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        const toggleBtn = document.getElementById('toggle-btn');
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('main-content');
+
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            mainContent.classList.toggle('shift');
+        });
+
+        // Close sidebar on outside click for mobile
+        document.addEventListener('click', (e) => {
+            if (!sidebar.contains(e.target) && !toggleBtn.contains(e.target)) {
+                sidebar.classList.remove('open');
+                mainContent.classList.remove('shift');
+            }
+        });
+    </script>
+</body>
+</html>

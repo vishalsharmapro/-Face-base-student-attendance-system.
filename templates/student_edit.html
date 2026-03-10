@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Student</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease-in-out;
+        }
+        .container:hover {
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            text-align: center;
+            color: #4a90e2;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        form label {
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        form input,
+        form textarea,
+        form select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        form input:focus,
+        form textarea:focus,
+        form select:focus {
+            border-color: #4a90e2;
+            box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+            outline: none;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .btn-primary {
+            background-color: #4a90e2;
+            color: #fff;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #357abf;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: #fff;
+            margin-top: 15px;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+        .actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Edit Student: {{ student.name }}</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="actions">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a href="{% url 'student-detail' pk=student.pk %}" class="btn btn-secondary">Back to Student Details</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

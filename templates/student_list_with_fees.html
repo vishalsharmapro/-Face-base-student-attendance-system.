@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Fees Management</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f5f7fa;
+            color: #333;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-form {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .search-form input {
+            width: 50%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-form input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        .search-form button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-left: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-form button:hover {
+            background-color: #0056b3;
+        }
+
+        .table-container {
+            overflow-x: auto; /* Enable horizontal scroll */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            min-width: 800px; /* Ensure table doesn't shrink too much */
+        }
+
+        table th, table td {
+            text-align: left;
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .status.paid {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .status.unpaid {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .actions a {
+            text-decoration: none;
+            background-color: #17a2b8;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .actions a:hover {
+            background-color: #138496;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Fees Management</h1>
+    <div class="container">
+        <!-- Search Form -->
+        <div class="search-form">
+            <form method="get">
+                <input type="text" name="search" placeholder="Search by name or class" value="{{ search_query }}">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+
+        <!-- Student Fees Table -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Class</th>
+                        <th>Total Fee</th>
+                        <th>Total Payment</th>
+                        <th>Balance</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for data in student_data %}
+                    <tr>
+                        <td>{{ data.student.name }}</td>
+                        <td>{{ data.student.student_class }}</td>
+                        <td>{{ data.total_fee }}</td>
+                        <td>{{ data.total_payment }}</td>
+                        <td>{{ data.balance }}</td>
+                        <td class="status {% if data.fee_status == 'Paid' %}paid{% else %}unpaid{% endif %}">
+                            {{ data.fee_status }}
+                        </td>
+                        <td class="actions">
+                            <a href="{% url 'student_fee_details' data.student.id %}">View Details</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
